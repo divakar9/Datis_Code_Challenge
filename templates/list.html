@@ -34,6 +34,7 @@
 
 
 				$scope.addEmployee = function(){
+
 					$http({
 						method: 'POST',
 						url: '/addEmployee',
@@ -54,8 +55,8 @@
 					$scope.showAdd = false;
 
 					$http({
-						method: 'POST',
-						url: '/getEmployee',
+						method: 'GET',
+						url: '/getEmployee/'+id,
 						data: {id:$scope.info.id}
 					}).then(function(response) {
 						console.log(response);
@@ -88,23 +89,22 @@
 					$('#addPopUp').modal('show');
 				};
 
-				$scope.showRunPopUp = function(id){
-
-					$scope.info.id = id;
-					$scope.run = {};
-
-					$http({
-						method: 'POST',
-						url: '/getEmployee',
-						data: {id:$scope.info.id}
-					}).then(function(response) {
-						console.log(response);
-						$scope.run = response.data;
-						$('#runPopUp').modal('show');
-					}, function(error) {
-						console.log(error);
-					});
-				};
+				{#$scope.showRunPopUp = function(id){#}
+                {##}
+				{#	$scope.info.id = id;#}
+				{#	$scope.run = {};#}
+                {##}
+				{#	$http({#}
+				{#		method: 'POST',#}
+				{#		url: '/getEmployee',#}
+				{#		data: {id:$scope.info.id}#}
+				{#	}).then(function(response) {#}
+				{#		console.log(response);#}
+				{#		$scope.run = response.data;#}
+				{#		$('#runPopUp').modal('show');#}
+				{#	}, function(error) {#}
+				{#		console.log(error);#}
+				{#	});};#}
 
 				$scope.confirmDelete = function(id){
 					$scope.deleteEmployeeId = id;
@@ -142,7 +142,7 @@
                     <li role="presentation" class="active"><a href="#" data-toggle="modal" ng-click="showAddPopUp()">Add</a></li>
                 </ul>
             </nav>
-            <h3 class="text-muted">DATIS CODE CHALLENGE TO BUILD A FULL STACK APPLICATION</h3>
+            <h3 class="text-muted">DATIS CODE CHALLENGE</h3>
         </div>
 
         <div class="bs-example" data-example-id="panel-without-body-with-table">
