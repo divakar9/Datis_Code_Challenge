@@ -14,28 +14,22 @@
      <script>
         angular.module('angular-flask', [])
             .controller('HomeCtrl', function($scope, $http) {
-
-				$scope.info = {};
-
-				$scope.showAdd = true;
-
-				$scope.showlist = function(){
+                $scope.info = {};
+                $scope.showAdd = true;
+                $scope.showlist = function(){
 					$http({
 						method: 'GET',
 						url: '/getEmployeeList',
 					}).then(function(response) {
 						$scope.employees = response.data;
-						console.log('mm',$scope.employees);
+						console.log('Employees',$scope.employees);
 					}, function(error) {
 						console.log(error);
 					});
-				}
+				};
 
-
-
-				$scope.addEmployee = function(){
-
-					$http({
+                $scope.addEmployee = function(){
+                    $http({
 						method: 'POST',
 						url: '/addEmployee',
 						data: {info:$scope.info}
@@ -51,10 +45,8 @@
 
 				$scope.editEmployee = function(id){
 					$scope.info.id = id;
-
-					$scope.showAdd = false;
-
-					$http({
+                    $scope.showAdd = false;
+                    $http({
 						method: 'GET',
 						url: '/getEmployee/'+id,
 						data: {id:$scope.info.id}
@@ -68,8 +60,7 @@
 				};
 
 				$scope.updateEmployee = function(id){
-
-					$http({
+                    $http({
 						method: 'PUT',
 						url: '/updateEmployee',
 						data: {info:$scope.info}
@@ -89,31 +80,13 @@
 					$('#addPopUp').modal('show');
 				};
 
-				{#$scope.showRunPopUp = function(id){#}
-                {##}
-				{#	$scope.info.id = id;#}
-				{#	$scope.run = {};#}
-                {##}
-				{#	$http({#}
-				{#		method: 'POST',#}
-				{#		url: '/getEmployee',#}
-				{#		data: {id:$scope.info.id}#}
-				{#	}).then(function(response) {#}
-				{#		console.log(response);#}
-				{#		$scope.run = response.data;#}
-				{#		$('#runPopUp').modal('show');#}
-				{#	}, function(error) {#}
-				{#		console.log(error);#}
-				{#	});};#}
-
 				$scope.confirmDelete = function(id){
 					$scope.deleteEmployeeId = id;
 					$('#deleteConfirm').modal('show');
 				};
 
 				$scope.deleteEmployee = function(){
-
-					$http({
+                    $http({
 						method: 'POST',
 						url: '/deleteEmployee',
 						data: {id:$scope.deleteEmployeeId}
@@ -127,8 +100,7 @@
 					});
 				};
 
-
-				$scope.showlist();
+                $scope.showlist();
             });
     </script>
 </head>
@@ -137,12 +109,14 @@
 
     <div class="container">
         <div class="header clearfix">
-            <nav>
-                <ul class="nav nav-pills pull-right">
-                    <li role="presentation" class="active"><a href="#" data-toggle="modal" ng-click="showAddPopUp()">Add</a></li>
-                </ul>
-            </nav>
-            <h3 class="text-muted">DATIS CODE CHALLENGE</h3>
+
+            <div class="text-right">
+                <a href="#" data-toggle="modal" ng-click="showAddPopUp()">
+                   <button type="button" class="btn btn-primary">ADD</button>
+                </a>
+            </div>
+
+            <h3>DATIS CODE CHALLENGE</h3>
         </div>
 
         <div class="bs-example" data-example-id="panel-without-body-with-table">
@@ -170,8 +144,14 @@
                             <td> {{'{{employee.salary}}'}}</td>
                             <td>{{'{{employee.insurance_pay}}'}}</td>
                             <td>{{'{{employee.real_pay}}'}}</td>
-							<td><span style="cursor:pointer;color:#3437e4;" ng-click="editEmployee(employee.id)" class="glyphicon glyphicon-pencil" aria-hidden="true">UPDATE</span></td>
-							<td><span style="cursor:pointer;color:#e43309;" ng-click="confirmDelete(employee.id)" class="glyphicon glyphicon-remove" aria-hidden="true">DELETE</span></td>
+							<td><span ng-click="editEmployee(employee.id)" class="glyphicon glyphicon-pencil" aria-hidden="true">
+                                <button class="btn btn-primary">UPDATE</button>
+                                </span>
+                            </td>
+							<td><span ng-click="confirmDelete(employee.id)" class="glyphicon glyphicon-remove" aria-hidden="true">
+                                <button class="btn btn-primary">DELETE</button>
+                                </span>
+                            </td>
                         </tr>
 
                     </tbody>

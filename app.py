@@ -13,26 +13,22 @@ def showEmployeelist():
     return render_template('list.html')
 
 
+#TO ADD EMPLOYEES
 @app.route("/addEmployee", methods=['POST'])
 def addEmployee():
     json_data = request.json['info']
-
-    # check type of incoming data
-    # data_check.check_types(json_data)
-
     employeeName = json_data['employee']
     jobtitle = json_data['job']
     basesalary = float(json_data['salary'])
     medicalinsurance = float(json_data['insurance_pay'])
     take_home_pay = float(json_data['real_pay'])
-
     mongo.db.Employees.insert_one({
             'employee': employeeName, 'job': jobtitle, 'salary': basesalary, 'insurance_pay': medicalinsurance, 'real_pay': take_home_pay
         })
-
     return jsonify(status='OK', message='inserted successfully')
 
 
+#TO GET A PARTICULAR EMPLOYEE FOR UPDATE
 @app.route('/getEmployee/<eid>', methods=['GET'])
 def getEmployee(eid):
     employeeId = eid
@@ -45,33 +41,29 @@ def getEmployee(eid):
         'real_pay': employee['real_pay'],
         'id': str(employee['_id'])
     }
-
     return json.dumps(employeeDetail)
 
 
-
+#TO UPDATE A PARTICULAR EMPLOYEE
 @app.route('/updateEmployee', methods=['PUT'])
 def updateEmployee():
     employeeInfo = request.json['info']
-    # data_check.check_types(employeeInfo)
-
     employeeId = employeeInfo['id']
     employeeName = employeeInfo['employee']
     jobtitle = employeeInfo['job']
     basesalary = float(employeeInfo['salary'])
     medicalinsurance = float(employeeInfo['insurance_pay'])
     take_home_pay = float(employeeInfo['real_pay'])
-
     mongo.db.Employees.update_one({'_id': ObjectId(employeeId)}, {
         '$set': {'employee': employeeName, 'job': jobtitle, 'salary': basesalary, 'insurance_pay': medicalinsurance, 'real_pay': take_home_pay}})
     return jsonify(status='OK', message='updated successfully')
 
 
+#TO GET ALL EMPLOYEES
 @app.route("/getEmployeeList", methods=['GET'])
 def getEmployeeList():
     employees = mongo.db.Employees.find()
     employeeList = []
-
     for employee in employees:
         employeeItem = {
             'employee': employee['employee'],
@@ -81,11 +73,10 @@ def getEmployeeList():
             'real_pay': employee['real_pay'],
             'id': str(employee['_id'])
         }
-
         employeeList.append(employeeItem)
-
     return json.dumps(employeeList)
 
+#TO DELETE AN EMPLOYEE
 @app.route("/deleteEmployee", methods=['POST'])
 def deleteEmployee():
     try:
