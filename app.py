@@ -48,7 +48,7 @@ def getEmployee():
 
 
 
-@app.route('/updateEmployee', methods=['POST'])
+@app.route('/updateEmployee', methods=['PUT'])
 def updateEmployee():
     try:
         employeeInfo = request.json['info']
