@@ -1,10 +1,10 @@
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from flask import Flask, render_template, jsonify, json, request
+import os
 
 app = Flask(__name__)
-
-app.config["MONGO_URI"] = "mongodb://localhost:27017/myDatabase"
+app.config["MONGO_URI"] = os.getenv("MONGODB_URI", "mongodb://localhost:27017/myDatabase")
 mongo = PyMongo(app)
 
 @app.route("/addEmployee", methods=['POST'])
